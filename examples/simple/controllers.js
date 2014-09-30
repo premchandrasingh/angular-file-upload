@@ -9,7 +9,8 @@ angular
 
     .controller('AppController', ['$scope', 'FileUploader', function($scope, FileUploader) {
         var uploader = $scope.uploader = new FileUploader({
-            url: 'upload.php'
+            url: 'upload.php',
+            extensions:'jpg,jpeg,png,gif'
         });
 
         // FILTERS
