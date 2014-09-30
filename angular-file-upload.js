@@ -43,7 +43,8 @@ module
         filters: [],
         formData: [],
         queueLimit: Number.MAX_VALUE,
-        withCredentials: false
+        withCredentials: false,
+        extensions: null
     })
 
 
@@ -66,6 +67,7 @@ module
                 // add default filters
                 this.filters.unshift({name: 'queueLimit', fn: this._queueLimitFilter});
                 this.filters.unshift({name: 'folder', fn: this._folderFilter});
+                this.filters.unshift({ name: '_extension', fn: this._extensionFilter });
             }
             /**********************
              * PUBLIC
@@ -372,6 +374,16 @@ module
              */
             FileUploader.prototype._queueLimitFilter = function() {
                 return this.queue.length < this.queueLimit;
+            };
+             /**
+             * Returns "true" if the extension is valid
+             * @returns {Boolean}
+             * @private
+             */
+            FileUploader.prototype._extensionFilter = function (item) {
+                var ext = item.name.substr((~-item.name.lastIndexOf(".") >>> 0) + 2);
+                return !this.extensions || this.extensions.indexOf(ext) > -1;
+
             };
             /**
              * Returns "true" if file pass all filters
